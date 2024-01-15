@@ -1,3 +1,5 @@
+import java.util.List;
+
 class RandomizedBST implements TaxEvasionInterface {
     class TreeNode {
         LargeDepositor item;
@@ -5,18 +7,18 @@ class RandomizedBST implements TaxEvasionInterface {
         TreeNode right;
         int N;
 
-        public int key() {
-            return item.key();
+        TreeNode(LargeDepositor item){
+            this.item = item;
         }
     }
 
     private TreeNode root;
 
-    public void insert(LargeDepositor elem) {
+    public void insert(LargeDepositor item) {
         if (root == null) {
-            root.item = elem;
+            root.item = item;
         }
-        int res = compareRoot(elem);
+        int res = compareRoot(item);
         if (res == 0) {
             
             return;
@@ -24,13 +26,51 @@ class RandomizedBST implements TaxEvasionInterface {
 
     }
 
+    public TreeNode insertAsRoot(LargeDepositor item, TreeNode node){
+        if(node == null){
+            return new RandomizedBST(item);
+        }
+    }
+
     public int compareRoot(LargeDepositor elem) {
-        if (root.key() < elem.key()) {
+        if (root.item.key() < elem.key()) {
             return -1;
-        } else if (root.key() > elem.key()) {
+        } else if (root.item.key() > elem.key()) {
             return 1;
         }
         return 0;
+    }
+
+    public void load(String filename){
+
+    }
+
+    public void updateSavings(int AFM, double savings){
+
+    }
+
+    public LargeDepositor searchByAFM(int AFM){
+
+    }
+
+    public List searchByLastName(String last_name){
+
+    }
+
+    public void remove(int AFM){
+
+    }
+
+    public double getMeanSavings(){
+
+    }
+
+    public void printΤopLargeDepositors(int k){
+
+    }
+
+    public void printByAFM(){
+
     }
 
 }
