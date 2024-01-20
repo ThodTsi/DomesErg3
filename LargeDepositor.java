@@ -8,4 +8,10 @@ public class LargeDepositor {
     int key() {
         return AFM;
     }
+
+    public String toString(){
+        return "AFM: \t" + AFM + "First Name: \t" + firstName + "Last Name \t" + lastName + 
+                "Savings: \t" + savings + "Taxed Income: \t" + taxedIncome;
+    }
+
 }
