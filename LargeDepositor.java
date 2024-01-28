@@ -22,8 +22,12 @@ public class LargeDepositor {
                 "Savings: \t" + savings + "Taxed Income: \t" + taxedIncome;
     }
 
-    public void setSavings(s){
+    public void setSavings(double s){
         this.savings = s;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 
 }

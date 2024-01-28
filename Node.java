@@ -2,7 +2,7 @@ public class Node<T> {
     protected LargeDepositor data;
     protected Node next = null;
 
-    Node(T data) {
+    Node(LargeDepositor data) {
         this.data = data;
     }
 
