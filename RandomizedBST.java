@@ -162,19 +162,29 @@ class RandomizedBST implements TaxEvasionInterface {
         }
     }
 
-    public DepList searchByLastName(String last_name) {
-        DepList list = new DepList();
+    public void Traversal(TreeNode root, String last_name, SingleList list) {
+        if (root != null) {
+            Traversal(root.left, last_name, list);
+
+            // Perform the search logic here
+            if (root.item.getLastName().equals(last_name)) {
+                list.insert(root.item);
+            }
+
+            Traversal(root.right, last_name, list);
+        }
+    }
+
+    public SingleList searchByLastName(String last_name) {
+        SingleList list = new SingleList();
         if (root == null) {
             System.out.println("There is no such last name");
             return list;
         }
-        TreeNode p = root;
-        if (p.item.getLastName() == last_name) {
-            Node n = new Node(p.item);
-            list.insert();
 
-        }
+        Traversal(root, last_name, list);
 
+        return list;
     }
 
     TreeNode partR(TreeNode n, int k) {
@@ -216,12 +226,28 @@ class RandomizedBST implements TaxEvasionInterface {
         }
     }
 
+    public void Traversal2(TreeNode root, double s, int n) {
+        if (root != null) {
+            Traversal2(root.left, s, n);
+
+            // Perform the search logic here
+            s += root.item.getSavings();
+            n++;
+
+            Traversal2(root.right, s, n);
+        }
+    }
+
     public double getMeanSavings() {
+        double sum = 0.0f;
+        int n = 0;
+        Traversal2(root, sum, n);
+        return sum / n;
 
     }
 
     public void printΤopLargeDepositors(int k) {
-
+        a
     }
 
     public void printByAFM() {

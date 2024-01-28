@@ -7,7 +7,7 @@ public interface TaxEvasionInterface {
 
     LargeDepositor searchByAFM(int AFM);
 
-    List searchByLastName(String last_name);
+    SingleList searchByLastName(String last_name);
 
     void remove(int AFM);
 
