@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Node;
@@ -20,18 +21,20 @@ class RandomizedBST implements TaxEvasionInterface {
 
     private TreeNode root;
 
-    public TreeNode insert(TreeNode node, LargeDepositor item) {
-        if (node == null)
-            return new TreeNode(item);
-        if (Math.random() * (node.n + 1) < 1.0)
-            return insertAsRoot(item, node);
+    public void insert(LargeDepositor item) {
+        TreeNode node = new TreeNode(item);
+        if (root == null) {
+            root = node;
+        }
+        if (Math.random() * (node.n + 1) < 1.0) {
+            insertAsRoot(item, node);
+        }
         if (less(item.key(), node.item.key())) {
-            node.left = insert(node.left, item);
+            insertAsRoot(item, node);
         } else {
-            node.right = insert(node.right, item);
+            insertAsRoot(item, node);
         }
         node.n++;
-        return node;
     }
 
     public TreeNode insertAsRoot(LargeDepositor item, TreeNode node) {
@@ -47,8 +50,6 @@ class RandomizedBST implements TaxEvasionInterface {
             node = rotateLeft(node);
         }
         return node;
-    }
-
     }
 
     public TreeNode rotateRight(TreeNode h) {
@@ -74,18 +75,48 @@ class RandomizedBST implements TaxEvasionInterface {
 
     public void load(String filename) {
         try {
+            BufferedReader r = new BufferedReader(new FileReader(filename));
+
+            // Count the number of lines
+            int numberOfLines = 0;
+            while (r.readLine() != null) {
+                numberOfLines++;
+            }
+
+            // Reset the BufferedReader
+            r.close();
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             int afm = 0;
-            String firstname, lastname = null;
-            double savings, taxedIncome = 0.0f;
-            int ch, whitespace, startIndex, endIndex = 0;
-            String line = reader.readLine();
+            String firstname = null, lastname = null;
+            double savings = 0.0f, taxedIncome = 0.0f;
+            int ch = 0, whitespace = 0, startIndex = 0, endIndex = 0, n = 0;
             StringBuilder currentLine = new StringBuilder();
-            while (line != null) {
-                line = reader.readLine();
-                endIndex++;
-                currentLine.append((char) ch);
+
+            while (n < numberOfLines) {
+                ch = reader.read();
+                if ((char) ch == '\n' || ch == -1) {
+                    if (ch == -1) {
+                        endIndex++; // mono gia thn teleytaia grammh
+                    }
+                    LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
+                    insert(l);
+                    System.out.println(l.toString());
+                    System.out.println("eii");
+                    n++;
+                    whitespace = -1;
+                    endIndex = startIndex = 0; // allazei line, jana arxikopoihsh
+                    currentLine.setLength(0); // "katharizoyme to line"
+                    whitespace = -1; // -1 giati diavazei ena parapanw whiteSpace otan allazei line
+                    if (ch == -1) { // diavaze -1 kai meta jana -1, opote to valame gia na
+                        break; // mas petaei apo to loop otan teleiwnei to text, dhladh sto prwto -1
+                    }
+                } else {
+                    endIndex++;
+                    currentLine.append((char) ch);
+                }
+
                 if (Character.isWhitespace((char) ch)) {
+                    System.out.println("eii");
                     if (whitespace == 0) {
                         afm = Integer.parseInt(currentLine.toString().trim().substring(startIndex, endIndex - 1));
                         startIndex = endIndex;
@@ -99,7 +130,8 @@ class RandomizedBST implements TaxEvasionInterface {
                         startIndex = endIndex;
                         whitespace++;
                     } else if (whitespace == 3) {
-                        savings = Double.parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
+                        savings = Double
+                                .parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
                         startIndex = endIndex;
                         whitespace++;
                     } else if (whitespace == 4) {
@@ -107,16 +139,10 @@ class RandomizedBST implements TaxEvasionInterface {
                                 .parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
                         startIndex = endIndex;
                         whitespace++;
-                    } else if (whitespace == 5) {
-                        LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
-                        insert(root, l);
-                        whitespace = 0;
-                        endIndex = startIndex = 0; // allazei line, jana arxikopoihsh
-                        currentLine.setLength(0); // "katharizoyme to line"
                     }
                 }
             }
-
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("error");
@@ -160,6 +186,7 @@ class RandomizedBST implements TaxEvasionInterface {
         if (found == false) {
             System.out.println("This afm doesn't exist");
         }
+        return n.item;
     }
 
     public void Traversal(TreeNode root, String last_name, SingleList list) {
@@ -247,11 +274,11 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     public void printΤopLargeDepositors(int k) {
-        a
+        return;
     }
 
     public void printByAFM() {
-
+        return;
     }
 
 }
