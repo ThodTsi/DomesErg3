@@ -85,6 +85,7 @@ class RandomizedBST implements TaxEvasionInterface {
 
             // Reset the BufferedReader
             r.close();
+            System.out.println("Number of lines: " + numberOfLines);
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             int afm = 0;
             String firstname = null, lastname = null;
@@ -101,12 +102,11 @@ class RandomizedBST implements TaxEvasionInterface {
                     LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
                     insert(l);
                     System.out.println(l.toString());
-                    System.out.println("eii");
                     n++;
-                    whitespace = -1;
+                    whitespace = 0;
                     endIndex = startIndex = 0; // allazei line, jana arxikopoihsh
                     currentLine.setLength(0); // "katharizoyme to line"
-                    whitespace = -1; // -1 giati diavazei ena parapanw whiteSpace otan allazei line
+                    whitespace = 0; // -1 giati diavazei ena parapanw whiteSpace otan allazei line
                     if (ch == -1) { // diavaze -1 kai meta jana -1, opote to valame gia na
                         break; // mas petaei apo to loop otan teleiwnei to text, dhladh sto prwto -1
                     }
@@ -119,27 +119,21 @@ class RandomizedBST implements TaxEvasionInterface {
                     System.out.println("eii");
                     if (whitespace == 0) {
                         afm = Integer.parseInt(currentLine.toString().trim().substring(startIndex, endIndex - 1));
-                        startIndex = endIndex;
-                        whitespace++;
                     } else if (whitespace == 1) {
                         firstname = currentLine.toString().trim().substring(startIndex, endIndex - 1);
-                        startIndex = endIndex;
-                        whitespace++;
+                        System.out.println(
+                                "Firstname raw: '" + currentLine.toString().substring(startIndex, endIndex - 1) + "'");
                     } else if (whitespace == 2) {
                         lastname = currentLine.toString().trim().substring(startIndex, endIndex - 1);
-                        startIndex = endIndex;
-                        whitespace++;
                     } else if (whitespace == 3) {
                         savings = Double
                                 .parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
-                        startIndex = endIndex;
-                        whitespace++;
                     } else if (whitespace == 4) {
                         taxedIncome = Double
                                 .parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
-                        startIndex = endIndex;
-                        whitespace++;
                     }
+                    startIndex = endIndex;
+                    whitespace++;
                 }
             }
             reader.close();
@@ -148,6 +142,7 @@ class RandomizedBST implements TaxEvasionInterface {
             System.out.println("error");
         } catch (Exception exc) {
             System.out.println("Wrong input");
+            exc.printStackTrace();
             System.exit(0);
         }
     }

@@ -18,8 +18,8 @@ public class LargeDepositor {
     }
 
     public String toString() {
-        return "AFM: \t" + afm + "First Name: \t" + firstName + "Last Name \t" + lastName +
-                "Savings: \t" + savings + "Taxed Income: \t" + taxedIncome;
+        return "AFM: \t" + afm + " First Name: \t" + firstName + " Last Name \t" + lastName +
+                " Savings: \t" + savings + " Taxed Income: \t" + taxedIncome;
     }
 
     public void setSavings(double s) {
