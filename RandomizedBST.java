@@ -12,7 +12,7 @@ class RandomizedBST implements TaxEvasionInterface {
         LargeDepositor item;
         TreeNode left;
         TreeNode right;
-        int n = 0;
+        int N = 0;
 
         TreeNode(LargeDepositor item) {
             this.item = item;
@@ -33,7 +33,7 @@ class RandomizedBST implements TaxEvasionInterface {
             System.out.println("Diplo afm");
             return node;
         }
-        if (Math.random() * (node.n + 1) < 1.0) {
+        if (Math.random() * (node.N + 1) < 1.0) {
             return insertAsRoot(item, root);
         }
         if (less(item.key(), node.item.key())) {
@@ -52,12 +52,11 @@ class RandomizedBST implements TaxEvasionInterface {
         if (less(item.key(), node.item.key())) {
             node.left = insertAsRoot(item, node.left);
             node = rotateRight(node);
-        } // δεξιά περιστροφή για να έρθει στη ρίζα
-        else {
+        }else {
             node.right = insertAsRoot(item, node.right);
             node = rotateLeft(node);
         }
-        node.n++;
+        node.N++;
 
         return node;
     }
@@ -236,7 +235,7 @@ class RandomizedBST implements TaxEvasionInterface {
         if (n.left == null) {
             t = 0;
         } else {
-            t = n.left.n;
+            t = n.left.N;
         }
         if (t > k) {
             n.left = partR(n.left, k);
@@ -274,8 +273,8 @@ class RandomizedBST implements TaxEvasionInterface {
         } else if (b == null) {
             return a;
         }
-        int c = a.n + b.n;
-        if (Math.random() * c < 1.0 * a.n) {
+        int c = a.N + b.N;
+        if (Math.random() * c < 1.0 * a.N) {
             a.right = joinLeftRight(a.right, b);
             return a;
         } else {

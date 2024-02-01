@@ -8,7 +8,7 @@ public class test {
 
         System.out.println(bst.root.left.item.toString());
         System.out.println(bst.root.left.item.toString());
-        System.out.println(bst.root.n);
+        System.out.println(bst.root.N);
         // System.out.println(bst.searchByAFM(111).toString());
         // System.out.println(bst.searchByAFM(333));
         SingleList s = bst.searchByLastName("sa");
