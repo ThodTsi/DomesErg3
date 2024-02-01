@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 public class SingleList {
 
-    private Node head;
+    protected Node head;
 
     SingleList() {
         this.head = null;
@@ -20,6 +20,14 @@ public class SingleList {
             head = n;
         } else {
             n.setNext(head);
+        }
+    }
+
+    public void printList() {
+        Node h = head;
+        while (h != null) {
+            System.out.println(h.toString());
+            h = h.next;
         }
     }
 
