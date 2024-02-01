@@ -19,22 +19,30 @@ class RandomizedBST implements TaxEvasionInterface {
         }
     }
 
-    private TreeNode root;
+    protected TreeNode root;
 
     public void insert(LargeDepositor item) {
-        TreeNode node = new TreeNode(item);
-        if (root == null) {
-            root = node;
+        root = insert(item, root);
+    }
+
+    private TreeNode insert(LargeDepositor item, TreeNode node) {
+        if (node == null) {
+            return new TreeNode(item);
+        }
+        if (item.key() == node.item.key()) {
+            System.out.println("Diplo afm");
+            return node;
         }
         if (Math.random() * (node.n + 1) < 1.0) {
-            insertAsRoot(item, node);
+            return insertAsRoot(item, root);
         }
         if (less(item.key(), node.item.key())) {
-            insertAsRoot(item, node);
+            node.left = insert(item, node.left);
         } else {
-            insertAsRoot(item, node);
+            node.right = insert(item, node.right);
         }
-        node.n++;
+
+        return node;
     }
 
     public TreeNode insertAsRoot(LargeDepositor item, TreeNode node) {
@@ -49,6 +57,8 @@ class RandomizedBST implements TaxEvasionInterface {
             node.right = insertAsRoot(item, node.right);
             node = rotateLeft(node);
         }
+        node.n++;
+
         return node;
     }
 
@@ -77,13 +87,11 @@ class RandomizedBST implements TaxEvasionInterface {
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
 
-            // Count the number of lines
             int numberOfLines = 0;
             while (r.readLine() != null) {
                 numberOfLines++;
             }
 
-            // Reset the BufferedReader
             r.close();
             System.out.println("Number of lines: " + numberOfLines);
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -95,46 +103,55 @@ class RandomizedBST implements TaxEvasionInterface {
 
             while (n < numberOfLines) {
                 ch = reader.read();
-                if ((char) ch == '\n' || ch == -1) {
-                    if (ch == -1) {
-                        endIndex++; // mono gia thn teleytaia grammh
-                    }
-                    LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
-                    insert(l);
-                    System.out.println(l.toString());
-                    n++;
-                    whitespace = 0;
-                    endIndex = startIndex = 0; // allazei line, jana arxikopoihsh
-                    currentLine.setLength(0); // "katharizoyme to line"
-                    whitespace = 0; // -1 giati diavazei ena parapanw whiteSpace otan allazei line
-                    if (ch == -1) { // diavaze -1 kai meta jana -1, opote to valame gia na
-                        break; // mas petaei apo to loop otan teleiwnei to text, dhladh sto prwto -1
+                if (Character.isWhitespace((char) ch)) {
+                    System.out.println("eii");
+                    whitespace++;
+                    if (whitespace == 1) {
+                        afm = Integer.parseInt(currentLine.toString().substring(startIndex, endIndex).trim());
+                        System.out.println("AFM: " + afm);
+                        startIndex = endIndex;
+                    } else if (whitespace == 2) {
+                        firstname = currentLine.toString().substring(startIndex, endIndex).trim();
+                        System.out.println(
+                                "First: " + currentLine.toString().substring(startIndex, endIndex));
+                        startIndex = endIndex;
+                    } else if (whitespace == 3) {
+                        lastname = currentLine.toString().substring(startIndex, endIndex).trim();
+                        System.out.println("Last: " + lastname);
+                        startIndex = endIndex;
+                    } else if (whitespace == 4) {
+                        savings = Double
+                                .parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
+                        System.out.println("Save: " + savings);
+                        startIndex = endIndex;
+
                     }
                 } else {
                     endIndex++;
                     currentLine.append((char) ch);
                 }
+                if ((char) ch == '\n' || ch == -1) {
 
-                if (Character.isWhitespace((char) ch)) {
-                    System.out.println("eii");
-                    if (whitespace == 0) {
-                        afm = Integer.parseInt(currentLine.toString().trim().substring(startIndex, endIndex - 1));
-                    } else if (whitespace == 1) {
-                        firstname = currentLine.toString().trim().substring(startIndex, endIndex - 1);
-                        System.out.println(
-                                "Firstname raw: '" + currentLine.toString().substring(startIndex, endIndex - 1) + "'");
-                    } else if (whitespace == 2) {
-                        lastname = currentLine.toString().trim().substring(startIndex, endIndex - 1);
-                    } else if (whitespace == 3) {
-                        savings = Double
-                                .parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
-                    } else if (whitespace == 4) {
+                    if (ch == -1) {
                         taxedIncome = Double
-                                .parseDouble(currentLine.toString().trim().substring(startIndex, endIndex - 1));
+                                .parseDouble(currentLine.toString().substring(startIndex, endIndex - 1).trim());
+                        System.out.println("Tax: " + taxedIncome);
+                    } else {
+                        taxedIncome = Double
+                                .parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
+                        System.out.println("Tax: " + taxedIncome);
+
                     }
-                    startIndex = endIndex;
-                    whitespace++;
+                    LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
+                    insert(l);
+                    System.out.println(l.toString());
+                    n++;
+                    endIndex = startIndex = 0; // allazei line, jana arxikopoihsh
+                    currentLine.setLength(0); // "katharizoyme to line"
+                    whitespace = 0;
+
                 }
+
             }
             reader.close();
         } catch (IOException e) {
@@ -150,7 +167,7 @@ class RandomizedBST implements TaxEvasionInterface {
     public void updateSavings(int afm, double savings) {
         boolean found = false;
         TreeNode n = root;
-        while (found == false || n == null) {
+        while (found == false && n != null) {
             if (afm < n.item.key()) {
                 n = n.left;
             } else if (afm > n.item.key()) {
@@ -168,14 +185,15 @@ class RandomizedBST implements TaxEvasionInterface {
     public LargeDepositor searchByAFM(int afm) {
         boolean found = false;
         TreeNode n = root;
-        while (found == false || n == null) {
-            if (afm < root.item.key()) {
+        while (found == false && n != null) {
+            if (afm < n.item.key()) {
                 n = n.left;
             } else if (afm > n.item.key()) {
                 n = n.right;
             } else if (afm == n.item.key()) {
-                found = true;
                 System.out.println(n.item.toString());
+                found = true;
+                return n.item;
             }
         }
         if (found == false) {
@@ -190,6 +208,7 @@ class RandomizedBST implements TaxEvasionInterface {
 
             // Perform the search logic here
             if (root.item.getLastName().equals(last_name)) {
+                System.out.println(root.item.toString());
                 list.insert(root.item);
             }
 
@@ -200,17 +219,19 @@ class RandomizedBST implements TaxEvasionInterface {
     public SingleList searchByLastName(String last_name) {
         SingleList list = new SingleList();
         if (root == null) {
-            System.out.println("There is no such last name");
+            System.out.println("The name does not exist");
             return list;
         }
 
         Traversal(root, last_name, list);
-
+        if (list.isEmpty()) {
+            System.out.println("The name does not exist");
+        }
         return list;
     }
 
     TreeNode partR(TreeNode n, int k) {
-        // int t = (n.left == null) ? 0 : n.left.n;
+
         int t = 0;
         if (n.left == null) {
             t = 0;
@@ -229,42 +250,73 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     public void remove(int afm) {
-        TreeNode p = root;
-        boolean found = false;
-        while (found == false || p == null) {
-            if (afm < p.item.key()) {
-                p = p.left;
-            } else if (afm > p.item.key()) {
-                p = p.right;
-            } else if (afm == p.item.key()) {
-                found = true;
-                if (p.right == null) {
-                    return;
-                }
-                p.right = partR(p.right, 0);
-                p.right.left = p.left;
-                return;
-            }
+        root = remove(root, afm);
+    }
+
+    private TreeNode remove(TreeNode n, int afm) {
+        if (n == null) {
+            return null;
+        }
+        int k = n.item.key();
+        if (less(afm, k)) {
+            n.left = remove(n.left, afm);
+        } else if (less(k, afm)) {
+            n.right = remove(n.right, afm);
+        } else {
+            n = joinLeftRight(n.left, n.right);
+        }
+        return n;
+    }
+
+    public TreeNode joinLeftRight(TreeNode a, TreeNode b) {
+        if (a == null) {
+            return b;
+        } else if (b == null) {
+            return a;
+        }
+        int c = a.n + b.n;
+        if (Math.random() * c < 1.0 * a.n) {
+            a.right = joinLeftRight(a.right, b);
+            return a;
+        } else {
+            b.left = joinLeftRight(a, b.left);
+            return b;
         }
     }
 
-    public void Traversal2(TreeNode root, double s, int n) {
+    public double Traversal2(TreeNode root, double s) {
         if (root != null) {
-            Traversal2(root.left, s, n);
-
+            s = Traversal2(root.left, s);
             // Perform the search logic here
             s += root.item.getSavings();
-            n++;
 
-            Traversal2(root.right, s, n);
+            s = Traversal2(root.right, s);
+            System.out.println("s: " + s);
+            return s;
         }
+        return s;
+    }
+
+    private int countNodes(TreeNode n) {
+        if (n == null)
+            return 0;
+        return 1 + countNodes(n.left) + countNodes(n.right);
+    }
+
+    public int count() {
+        return countNodes(root);
     }
 
     public double getMeanSavings() {
-        double sum = 0.0f;
-        int n = 0;
-        Traversal2(root, sum, n);
-        return sum / n;
+
+        double sum = Traversal2(root, 0.0);
+        int n = countNodes(root);
+        // double avg = Traversal2(root, sum, n);
+        if (n > 0) {
+            return sum / n;
+        } else {
+            return 0.0;
+        }
 
     }
 
