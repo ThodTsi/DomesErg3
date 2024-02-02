@@ -344,8 +344,8 @@ class RandomizedBST implements TaxEvasionInterface {
         PQ pq = new PQ();
         Traversal3(root, pq, k);
         System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
-        for (int i = 1; i <= pq.size(); i++) {
-            System.out.println(pq.heap[i].toString());
+        for (int i = 1; i <= k; i++) {
+            System.out.println(pq.getMin().toString());
         }
     }
 
@@ -355,32 +355,26 @@ class RandomizedBST implements TaxEvasionInterface {
         if (root != null) {
             Traversal3(root.left, pq, k);
 
-            LargeDepositor max = root.item;
-            if (pq.size() == k) {
-                for (int i = 1; i < pq.size(); i++) {
-                    if (pq.heap[i].compareTo(pq.heap[i + 1]) == 1) {
-                        max = pq.heap[i];
-                    }
-                }
-                if (root.item.getTaxedIncome() < MAX_VALUE) {
-                    pq.remove(max.key());
-                    pq.insert(root.item);
-                }
-                if (max.compareTo(root.item) == 1) {
-                    pq.remove(max.key());
-                    pq.insert(root.item);
-
-                }
-            } else {
-                pq.insert(root.item);
-            }
-
             Traversal3(root.right, pq, k);
         }
     }
 
+    void printInorder(TreeNode node) {
+        if (node == null)
+            return;
+
+        // First recur on left child
+        printInorder(node.left);
+
+        // Then print the data of node
+        System.out.print(node.item.key() + "\n");
+
+        // Now recur on right child
+        printInorder(node.right);
+    }
+
     public void printByAFM() {
-        return;
+        printInorder(root);
     }
 
 }

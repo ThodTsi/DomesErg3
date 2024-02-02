@@ -1,9 +1,10 @@
-public class LargeDepositor implements Comparable<LargeDepositor>{
+public class LargeDepositor implements Comparable<LargeDepositor> {
     private int afm;
     private String firstName;
     private String lastName;
     private double savings;
     private double taxedIncome;
+    private double score;
 
     int key() {
         return afm;
@@ -15,6 +16,7 @@ public class LargeDepositor implements Comparable<LargeDepositor>{
         this.lastName = lastName;
         this.savings = savings;
         this.taxedIncome = taxedIncome;
+        this.score = savings - taxedIncome;
     }
 
     public String toString() {
@@ -34,14 +36,12 @@ public class LargeDepositor implements Comparable<LargeDepositor>{
         return savings;
     }
 
-    public double getTaxedIncome(){
+    public double getTaxedIncome() {
         return taxedIncome;
     }
 
-    public int compareTo(LargeDepositor d){
-        double score1 = this.savings - this.taxedIncome;
-        double score2 = d.savings - d.taxedIncome;
-        int comp = Double.compare(score1, score2);
+    public int compareTo(LargeDepositor d) {
+        int comp = Double.compare(this.score, d.score);
         return comp;
     }
 }
