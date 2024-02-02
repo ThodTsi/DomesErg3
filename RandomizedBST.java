@@ -1,14 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Node;
+//import org.w3c.dom.Node;
 
 import java.lang.Math;
 
 import java.io.*;
 
 class RandomizedBST implements TaxEvasionInterface {
-    class TreeNode {
+
+    class TreeNode{
         LargeDepositor item;
         TreeNode left;
         TreeNode right;
@@ -42,9 +40,11 @@ class RandomizedBST implements TaxEvasionInterface {
             node.right = insert(item, node.right);
         }
 
+        node.N++;
         return node;
     }
 
+    //eisagwgh sthn riza
     public TreeNode insertAsRoot(LargeDepositor item, TreeNode node) {
         if (node == null) {
             return new TreeNode(item);
@@ -56,25 +56,29 @@ class RandomizedBST implements TaxEvasionInterface {
             node.right = insertAsRoot(item, node.right);
             node = rotateLeft(node);
         }
-        node.N++;
 
         return node;
     }
 
+    //gia dejia peristrofh
     public TreeNode rotateRight(TreeNode h) {
         TreeNode x = h.left;
         h.left = x.right;
         x.right = h;
+        //N =;
         return x;
     }
 
+    //gia aristeri peristrofh
     public TreeNode rotateLeft(TreeNode h) {
         TreeNode x = h.right;
         h.right = x.left;
         x.left = h;
+        //N =;
         return x;
     }
 
+    //vohthtikh
     public boolean less(int key1, int key2) {
         if (key1 < key2) {
             return true;
@@ -92,7 +96,7 @@ class RandomizedBST implements TaxEvasionInterface {
             }
 
             r.close();
-            System.out.println("Number of lines: " + numberOfLines);
+            //System.out.println("Number of lines: " + numberOfLines);
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             int afm = 0;
             String firstname = null, lastname = null;
@@ -201,14 +205,17 @@ class RandomizedBST implements TaxEvasionInterface {
         return n.item;
     }
 
+    //anadromikh anazhthsh onomatepwnymoy sto dentro
     public void Traversal(TreeNode root, String last_name, SingleList list) {
         if (root != null) {
             Traversal(root.left, last_name, list);
 
-            // Perform the search logic here
             if (root.item.getLastName().equals(last_name)) {
-                System.out.println(root.item.toString());
+                //System.out.println(root.item.toString());
                 list.insert(root.item);
+                if(list.N <= 5){    //to poly 5 ypoptoys..
+                    System.out.println(root.item.toString());
+                }
             }
 
             Traversal(root.right, last_name, list);
@@ -219,12 +226,16 @@ class RandomizedBST implements TaxEvasionInterface {
         SingleList list = new SingleList();
         if (root == null) {
             System.out.println("The name does not exist");
-            return list;
+            return null;
         }
 
         Traversal(root, last_name, list);
+
         if (list.isEmpty()) {
             System.out.println("The name does not exist");
+            return null;
+        }else if(list.N > 5){
+            list.printList();
         }
         return list;
     }
@@ -264,6 +275,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             n = joinLeftRight(n.left, n.right);
         }
+        n.N --;
         return n;
     }
 
@@ -283,10 +295,11 @@ class RandomizedBST implements TaxEvasionInterface {
         }
     }
 
+    //anadromikh anazhthsh katathesewn sto dentro
     public double Traversal2(TreeNode root, double s) {
         if (root != null) {
             s = Traversal2(root.left, s);
-            // Perform the search logic here
+
             s += root.item.getSavings();
 
             s = Traversal2(root.right, s);
@@ -320,7 +333,42 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     public void printΤopLargeDepositors(int k) {
-        return;
+        PQ pq = new PQ();
+        Traversal3(root, pq, k);
+        System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
+        for (int i = 1; i <= pq.size(); i++) {
+            System.out.println(pq.heap[i].toString());
+        }      
+    }
+
+    //anadromikh anazhthsh upoptoy
+    public void Traversal3(TreeNode root, PQ pq, int k) {
+        final double MAX_VALUE = 8000;
+        if (root != null) {
+            Traversal3(root.left, pq, k);
+
+            LargeDepositor max = root.item;
+            if (pq.size() == k) {
+                for (int i = 1; i < pq.size(); i++) {
+                    if (pq.heap[i].compareTo(pq.heap[i + 1]) == 1) {
+                        max = pq.heap[i];
+                    }
+                }
+                if(root.item.getTaxedIncome() < MAX_VALUE){
+                    pq.remove(max.key());
+                    pq.insert(root.item);
+                }
+                if (max.compareTo(root.item) == 1) {
+                    pq.remove(max.key());
+                    pq.insert(root.item);
+
+                }
+            } else {
+                pq.insert(root.item);
+            }
+
+            Traversal3(root.right, pq, k);
+        }
     }
 
     public void printByAFM() {

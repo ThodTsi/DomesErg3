@@ -1,10 +1,31 @@
-
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
 public class SingleList {
 
+    public class Node{
+        protected LargeDepositor data;
+        protected Node next = null;
+    
+        Node(LargeDepositor data) {
+            this.data = data;
+        }
+    
+        public LargeDepositor getData() {
+            return data;
+        }
+    
+        public Node getNext() {
+            return next;
+        }
+    
+        public void setNext(Node next) {
+            this.next = next;
+        }
+    }
+
     protected Node head;
+    protected int N=0;
 
     SingleList() {
         this.head = null;
@@ -21,6 +42,7 @@ public class SingleList {
         } else {
             n.setNext(head);
         }
+        N++;
     }
 
     public void printList() {
