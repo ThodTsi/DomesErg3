@@ -13,5 +13,6 @@ public class test {
         // System.out.println(bst.searchByAFM(333));
         // SingleList s = bst.searchByLastName("sa");
         // System.out.println(bst.getMeanSavings());
+        bst.printΤopLargeDepositors(3);
     }
 }

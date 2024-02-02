@@ -341,21 +341,56 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     public void printΤopLargeDepositors(int k) {
-        PQ pq = new PQ();
-        Traversal3(root, pq, k);
+        DoubleQueue dq = new DoubleQueue();
+        Traversal3(root, dq, k);
         System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
-        for (int i = 1; i <= k; i++) {
-            System.out.println(pq.getMin().toString());
+        NodeD h = dq.head;
+
+        while (h != null && h.next != null) {
+            if (h.getData().getTaxedIncome() > 8000 && h.getData().compareTo(h.next.getData()) == -1) {
+                // Swap nodes
+                NodeD temp = h.next;
+                h.next = temp.next;
+                if (temp.next != null) {
+                    temp.next.setPrev(h);
+                }
+                temp.prev = h.prev;
+                if (h.prev != null) {
+                    h.prev.setNext(temp);
+                }
+                h.prev = temp;
+                temp.next = h;
+
+                // Update head if necessary
+                if (dq.head == h) {
+                    dq.head = temp;
+                }
+            }
+
+            // Move to the next pair of nodes
+            h = h.next;
         }
+        int i = 0;
+        NodeD he = dq.head;
+        while (he != null && i < k) {
+            System.out.println(he.getData().toString());
+            he = he.next;
+            i++;
+        }
+
     }
 
     // anadromikh anazhthsh upoptoy
-    public void Traversal3(TreeNode root, PQ pq, int k) {
+    public void Traversal3(TreeNode root, DoubleQueue dq, int k) {
         final double MAX_VALUE = 8000;
         if (root != null) {
-            Traversal3(root.left, pq, k);
-
-            Traversal3(root.right, pq, k);
+            Traversal3(root.left, dq, k);
+            if (root.item.getTaxedIncome() < 8000) {
+                dq.addFirst(root.item);
+            } else {
+                dq.addLast(root.item);
+            }
+            Traversal3(root.right, dq, k);
         }
     }
 
