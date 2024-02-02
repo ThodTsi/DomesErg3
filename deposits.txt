@@ -1,2 +1,6 @@
 111 mpila nteris 200 15
 222 ou mpoi 30 5
+333 ste la 34 8001
+444 big man 1000000 1
+555 spilios spil 0 300000
+666 anti xristos 500000 0 

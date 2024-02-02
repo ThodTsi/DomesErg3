@@ -6,7 +6,7 @@ import java.io.*;
 
 class RandomizedBST implements TaxEvasionInterface {
 
-    class TreeNode{
+    class TreeNode {
         LargeDepositor item;
         TreeNode left;
         TreeNode right;
@@ -18,9 +18,11 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     protected TreeNode root;
+    boolean hasC = false;
 
     public void insert(LargeDepositor item) {
         root = insert(item, root);
+        root.N = countChildren(root);
     }
 
     private TreeNode insert(LargeDepositor item, TreeNode node) {
@@ -32,7 +34,7 @@ class RandomizedBST implements TaxEvasionInterface {
             return node;
         }
         if (Math.random() * (node.N + 1) < 1.0) {
-            return insertAsRoot(item, root);
+            return insertAsRoot(item, node);
         }
         if (less(item.key(), node.item.key())) {
             node.left = insert(item, node.left);
@@ -40,11 +42,10 @@ class RandomizedBST implements TaxEvasionInterface {
             node.right = insert(item, node.right);
         }
 
-        node.N++;
         return node;
     }
 
-    //eisagwgh sthn riza
+    // eisagwgh sthn riza
     public TreeNode insertAsRoot(LargeDepositor item, TreeNode node) {
         if (node == null) {
             return new TreeNode(item);
@@ -52,7 +53,7 @@ class RandomizedBST implements TaxEvasionInterface {
         if (less(item.key(), node.item.key())) {
             node.left = insertAsRoot(item, node.left);
             node = rotateRight(node);
-        }else {
+        } else {
             node.right = insertAsRoot(item, node.right);
             node = rotateLeft(node);
         }
@@ -60,25 +61,37 @@ class RandomizedBST implements TaxEvasionInterface {
         return node;
     }
 
-    //gia dejia peristrofh
+    // gia dejia peristrofh
     public TreeNode rotateRight(TreeNode h) {
         TreeNode x = h.left;
         h.left = x.right;
         x.right = h;
-        //N =;
+
         return x;
     }
 
-    //gia aristeri peristrofh
+    // gia aristeri peristrofh
     public TreeNode rotateLeft(TreeNode h) {
         TreeNode x = h.right;
         h.right = x.left;
         x.left = h;
-        //N =;
         return x;
     }
 
-    //vohthtikh
+    private int countChildren(TreeNode n) {
+        if (n == null) {
+            return 0;
+        }
+
+        int leftCount = countChildren(n.left);
+        int rightCount = countChildren(n.right);
+
+        n.N = leftCount + rightCount + 1; // Update N for the current node
+
+        return n.N; // Return the total count for the subtree rooted at this node
+    }
+
+    // vohthtikh
     public boolean less(int key1, int key2) {
         if (key1 < key2) {
             return true;
@@ -96,7 +109,7 @@ class RandomizedBST implements TaxEvasionInterface {
             }
 
             r.close();
-            //System.out.println("Number of lines: " + numberOfLines);
+            // System.out.println("Number of lines: " + numberOfLines);
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             int afm = 0;
             String firstname = null, lastname = null;
@@ -205,17 +218,13 @@ class RandomizedBST implements TaxEvasionInterface {
         return n.item;
     }
 
-    //anadromikh anazhthsh onomatepwnymoy sto dentro
+    // anadromikh anazhthsh onomatepwnymoy sto dentro
     public void Traversal(TreeNode root, String last_name, SingleList list) {
         if (root != null) {
             Traversal(root.left, last_name, list);
 
             if (root.item.getLastName().equals(last_name)) {
-                //System.out.println(root.item.toString());
                 list.insert(root.item);
-                if(list.N <= 5){    //to poly 5 ypoptoys..
-                    System.out.println(root.item.toString());
-                }
             }
 
             Traversal(root.right, last_name, list);
@@ -234,7 +243,7 @@ class RandomizedBST implements TaxEvasionInterface {
         if (list.isEmpty()) {
             System.out.println("The name does not exist");
             return null;
-        }else if(list.N > 5){
+        } else if (list.N > 5) {
             list.printList();
         }
         return list;
@@ -275,7 +284,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             n = joinLeftRight(n.left, n.right);
         }
-        n.N --;
+        n.N--;
         return n;
     }
 
@@ -295,7 +304,7 @@ class RandomizedBST implements TaxEvasionInterface {
         }
     }
 
-    //anadromikh anazhthsh katathesewn sto dentro
+    // anadromikh anazhthsh katathesewn sto dentro
     public double Traversal2(TreeNode root, double s) {
         if (root != null) {
             s = Traversal2(root.left, s);
@@ -323,7 +332,6 @@ class RandomizedBST implements TaxEvasionInterface {
 
         double sum = Traversal2(root, 0.0);
         int n = countNodes(root);
-        // double avg = Traversal2(root, sum, n);
         if (n > 0) {
             return sum / n;
         } else {
@@ -338,10 +346,10 @@ class RandomizedBST implements TaxEvasionInterface {
         System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
         for (int i = 1; i <= pq.size(); i++) {
             System.out.println(pq.heap[i].toString());
-        }      
+        }
     }
 
-    //anadromikh anazhthsh upoptoy
+    // anadromikh anazhthsh upoptoy
     public void Traversal3(TreeNode root, PQ pq, int k) {
         final double MAX_VALUE = 8000;
         if (root != null) {
@@ -354,7 +362,7 @@ class RandomizedBST implements TaxEvasionInterface {
                         max = pq.heap[i];
                     }
                 }
-                if(root.item.getTaxedIncome() < MAX_VALUE){
+                if (root.item.getTaxedIncome() < MAX_VALUE) {
                     pq.remove(max.key());
                     pq.insert(root.item);
                 }
