@@ -41,6 +41,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             node.right = insert(item, node.right);
         }
+        node.N = countChildren(node);
 
         return node;
     }
@@ -243,7 +244,7 @@ class RandomizedBST implements TaxEvasionInterface {
         if (list.isEmpty()) {
             System.out.println("The name does not exist");
             return null;
-        } else if (list.N > 5) {
+        } else if (list.size() < =5) {
             list.printList();
         }
         return list;
@@ -270,6 +271,7 @@ class RandomizedBST implements TaxEvasionInterface {
 
     public void remove(int afm) {
         root = remove(root, afm);
+        root.N = countChildren(root);
     }
 
     private TreeNode remove(TreeNode n, int afm) {
@@ -284,7 +286,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             n = joinLeftRight(n.left, n.right);
         }
-        n.N--;
+        n.N = countChildren(n);
         return n;
     }
 
@@ -343,7 +345,6 @@ class RandomizedBST implements TaxEvasionInterface {
     public void printΤopLargeDepositors(int k) {
         DoubleQueue dq = new DoubleQueue();
         Traversal3(root, dq, k);
-        System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
         NodeD h = dq.head;
 
         while (h != null && h.next != null) {
@@ -372,6 +373,7 @@ class RandomizedBST implements TaxEvasionInterface {
         }
         int i = 0;
         NodeD he = dq.head;
+        System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
         while (he != null && i < k) {
             System.out.println(he.getData().toString());
             he = he.next;

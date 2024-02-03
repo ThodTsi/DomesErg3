@@ -53,4 +53,8 @@ public class SingleList {
         }
     }
 
+    public int size() {
+        return N;
+    }
+
 }

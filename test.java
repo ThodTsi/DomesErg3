@@ -14,5 +14,8 @@ public class test {
         // SingleList s = bst.searchByLastName("sa");
         // System.out.println(bst.getMeanSavings());
         bst.printΤopLargeDepositors(3);
+        bst.remove(666);
+        bst.printΤopLargeDepositors(3);
+        System.out.println(bst.root.N);
     }
 }
