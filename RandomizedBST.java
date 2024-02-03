@@ -1,7 +1,5 @@
-//import org.w3c.dom.Node;
-
 import java.lang.Math;
-
+import java.util.Scanner;
 import java.io.*;
 
 class RandomizedBST implements TaxEvasionInterface {
@@ -410,6 +408,12 @@ class RandomizedBST implements TaxEvasionInterface {
 
     public void printByAFM() {
         printInorder(root);
+    }
+
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("-------------------MENU-------------------");
+        System.out.println("1. ");
     }
 
 }
