@@ -125,21 +125,16 @@ class RandomizedBST implements TaxEvasionInterface {
                     whitespace++;
                     if (whitespace == 1) {
                         afm = Integer.parseInt(currentLine.toString().substring(startIndex, endIndex).trim());
-                        System.out.println("AFM: " + afm);
                         startIndex = endIndex;
                     } else if (whitespace == 2) {
                         firstname = currentLine.toString().substring(startIndex, endIndex).trim();
-                        System.out.println(
-                                "First: " + currentLine.toString().substring(startIndex, endIndex));
                         startIndex = endIndex;
                     } else if (whitespace == 3) {
                         lastname = currentLine.toString().substring(startIndex, endIndex).trim();
-                        System.out.println("Last: " + lastname);
                         startIndex = endIndex;
                     } else if (whitespace == 4) {
                         savings = Double
                                 .parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
-                        System.out.println("Save: " + savings);
                         startIndex = endIndex;
 
                     }
@@ -152,11 +147,9 @@ class RandomizedBST implements TaxEvasionInterface {
                     if (ch == -1) {
                         taxedIncome = Double
                                 .parseDouble(currentLine.toString().substring(startIndex, endIndex - 1).trim());
-                        System.out.println("Tax: " + taxedIncome);
                     } else {
                         taxedIncome = Double
                                 .parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
-                        System.out.println("Tax: " + taxedIncome);
 
                     }
                     LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
@@ -349,7 +342,6 @@ class RandomizedBST implements TaxEvasionInterface {
 
         while (h != null && h.next != null) {
             if (h.getData().getTaxedIncome() > 8000 && h.getData().compareTo(h.next.getData()) == -1) {
-                // Swap nodes
                 NodeD temp = h.next;
                 h.next = temp.next;
                 if (temp.next != null) {
@@ -362,13 +354,11 @@ class RandomizedBST implements TaxEvasionInterface {
                 h.prev = temp;
                 temp.next = h;
 
-                // Update head if necessary
                 if (dq.head == h) {
                     dq.head = temp;
                 }
             }
 
-            // Move to the next pair of nodes
             h = h.next;
         }
         int i = 0;
@@ -400,13 +390,10 @@ class RandomizedBST implements TaxEvasionInterface {
         if (node == null)
             return;
 
-        // First recur on left child
         printInorder(node.left);
 
-        // Then print the data of node
         System.out.print(node.item.key() + "\n");
 
-        // Now recur on right child
         printInorder(node.right);
     }
 
