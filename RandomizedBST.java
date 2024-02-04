@@ -235,7 +235,7 @@ class RandomizedBST implements TaxEvasionInterface {
         if (list.isEmpty()) {
             System.out.println("The name does not exist");
             return null;
-        } else if (list.size() < =5) {
+        } else if (list.size() <= 5) {
             list.printList();
         }
         return list;
@@ -390,7 +390,7 @@ class RandomizedBST implements TaxEvasionInterface {
 
         printInorder(node.left);
 
-        System.out.print(node.item.key() + "\n");
+        System.out.println(node.item.toString());
 
         printInorder(node.right);
     }

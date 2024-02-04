@@ -5,8 +5,8 @@ public class DoubleQueue {
 
     protected NodeD head;
     protected NodeD tail;
-    protected int counter = 0; // gia na bgei to size() xwris loop --> O(1)
-
+    protected int counter = 0;
+    
     DoubleQueue() {
         this.head = null;
         this.tail = null;
