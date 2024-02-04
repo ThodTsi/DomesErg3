@@ -22,7 +22,7 @@ class RandomizedBST implements TaxEvasionInterface {
 
     public void insert(LargeDepositor item) {
         root = insert(item, root);
-        root.N = countChildren(root) - 1; 
+        root.N = countChildren(root) - 1;
     }
 
     private TreeNode insert(LargeDepositor item, TreeNode node) {
@@ -33,7 +33,7 @@ class RandomizedBST implements TaxEvasionInterface {
             System.out.println("Diplo afm");
             return node;
         }
-        if (Math.random() * (node.N + 1) < 1.0) {   //tyxaia eisagwgh sthn riza
+        if (Math.random() * (node.N + 1) < 1.0) { // tyxaia eisagwgh sthn riza
             return insertAsRoot(item, node);
         }
         if (less(item.key(), node.item.key())) {
@@ -41,7 +41,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             node.right = insert(item, node.right);
         }
-        //node.N = countChildren(node);
+        // node.N = countChildren(node);
 
         return node;
     }
@@ -56,7 +56,7 @@ class RandomizedBST implements TaxEvasionInterface {
             node = rotateRight(node);
         } else {
             node.right = insertAsRoot(item, node.right);
-            node = rotateLeft(node); 
+            node = rotateLeft(node);
         }
 
         return node;
@@ -87,9 +87,9 @@ class RandomizedBST implements TaxEvasionInterface {
         int leftCount = countChildren(n.left);
         int rightCount = countChildren(n.right);
 
-        n.N = leftCount + rightCount + 1; 
+        n.N = leftCount + rightCount + 1;
 
-        return n.N ;
+        return n.N;
     }
 
     // vohthtikh
@@ -111,7 +111,7 @@ class RandomizedBST implements TaxEvasionInterface {
             r.close();
 
             BufferedReader reader = new BufferedReader(new FileReader(filename));
-            //arxikopoihseis
+            // arxikopoihseis
             int afm = 0;
             String firstname = null, lastname = null;
             double savings = 0.0f, taxedIncome = 0.0f;
@@ -143,7 +143,8 @@ class RandomizedBST implements TaxEvasionInterface {
                 if ((char) ch == '\n' || ch == -1) {
 
                     if (ch == -1) {
-                        taxedIncome = Double.parseDouble(currentLine.toString().substring(startIndex, endIndex - 1).trim());
+                        taxedIncome = Double
+                                .parseDouble(currentLine.toString().substring(startIndex, endIndex - 1).trim());
                     } else {
                         taxedIncome = Double.parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
 
@@ -235,33 +236,35 @@ class RandomizedBST implements TaxEvasionInterface {
             System.out.println("The name does not exist");
             return null;
         } else if (list.size() <= 5) {
-            list.printList();   // to poly 5 ypoptoys, toys typwnei
+            list.printList(); // to poly 5 ypoptoys, toys typwnei
         }
         return list;
     }
 
-    /*TreeNode partR(TreeNode n, int k) {
-
-        int t = 0;
-        if (n.left == null) {
-            t = 0;
-        } else {
-            t = n.left.N;
-        }
-        if (t > k) {
-            n.left = partR(n.left, k);
-            n = rotateRight(n);
-        }
-        if (t < k) {
-            n.right = partR(n.right, k - t - 1);
-            n = rotateLeft(n);
-        }
-        return n;
-    }*/
+    /*
+     * TreeNode partR(TreeNode n, int k) {
+     * 
+     * int t = 0;
+     * if (n.left == null) {
+     * t = 0;
+     * } else {
+     * t = n.left.N;
+     * }
+     * if (t > k) {
+     * n.left = partR(n.left, k);
+     * n = rotateRight(n);
+     * }
+     * if (t < k) {
+     * n.right = partR(n.right, k - t - 1);
+     * n = rotateLeft(n);
+     * }
+     * return n;
+     * }
+     */
 
     public void remove(int afm) {
         root = remove(root, afm);
-        root.N = countChildren(root) -1;
+        root.N = countChildren(root) - 1;
     }
 
     private TreeNode remove(TreeNode n, int afm) {
@@ -277,7 +280,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             n = joinLeftRight(n.left, n.right);
         }
-        //n.N = countChildren(n);
+        // n.N = countChildren(n);
         return n;
     }
 
@@ -338,29 +341,32 @@ class RandomizedBST implements TaxEvasionInterface {
     public void printΤopLargeDepositors(int k) {
         DoubleQueue dq = new DoubleQueue();
         Traversal3(root, dq, k);
-        NodeD h = dq.head;
+        NodeD h;
+        for (int i = 0; i <= dq.size(); i++) {
+            h = dq.head;
+            while (h != null && h.next != null) {
+                if (h.getData().getTaxedIncome() > MAX_VALUE && h.getData().compareTo(h.next.getData()) == -1) {
+                    NodeD temp = h.next;
+                    h.next = temp.next;
+                    if (temp.next != null) {
+                        temp.next.setPrev(h);
+                    }
+                    temp.prev = h.prev;
+                    if (h.prev != null) {
+                        h.prev.setNext(temp);
+                    }
+                    h.prev = temp;
+                    temp.next = h;
 
-        while (h != null && h.next != null) {
-            if (h.getData().getTaxedIncome() > MAX_VALUE && h.getData().compareTo(h.next.getData()) == -1) {
-                NodeD temp = h.next;
-                h.next = temp.next;
-                if (temp.next != null) {
-                    temp.next.setPrev(h);
+                    if (dq.head == h) {
+                        dq.head = temp;
+                    }
                 }
-                temp.prev = h.prev;
-                if (h.prev != null) {
-                    h.prev.setNext(temp);
-                }
-                h.prev = temp;
-                temp.next = h;
 
-                if (dq.head == h) {
-                    dq.head = temp;
-                }
+                h = h.next;
             }
-
-            h = h.next;
         }
+
         int i = 0;
         NodeD he = dq.head;
         System.out.println("The " + k + " most suspected of tax evasion large depositors are: ");
@@ -400,8 +406,8 @@ class RandomizedBST implements TaxEvasionInterface {
         printInorder(root);
     }
 
-    public static void main(String args[]){
-        try{
+    public static void main(String args[]) {
+        try {
             Scanner sc = new Scanner(System.in);
             int an;
             String an1;
@@ -411,7 +417,7 @@ class RandomizedBST implements TaxEvasionInterface {
             RandomizedBST bst = new RandomizedBST();
             bst.load("deposits.txt");
 
-            do{
+            do {
                 System.out.println("-------------------MENU-------------------");
                 System.out.println("1. Inserst a large depositor");
                 System.out.println("2. Remove a large depositor");
@@ -423,7 +429,7 @@ class RandomizedBST implements TaxEvasionInterface {
                 System.out.println("0. Exit");
                 System.out.println("------------------------------------------");
                 an = sc.nextInt();
-                while(an < 0 || an > 7){
+                while (an < 0 || an > 7) {
                     System.out.print("Please give a correct number");
                     an = sc.nextInt();
                 }
@@ -443,7 +449,7 @@ class RandomizedBST implements TaxEvasionInterface {
                         LargeDepositor ld = new LargeDepositor(an, an1, an12, an2, an21);
                         bst.insert(ld);
                         break;
-                
+
                     case 2:
                         System.out.print("Please give the VAT number of the large depositor you choose to remove: ");
                         an = sc.nextInt();
@@ -451,7 +457,8 @@ class RandomizedBST implements TaxEvasionInterface {
                         break;
 
                     case 3:
-                        System.out.print("Please give the Vat number of the large depositor you choose to update their savings: ");
+                        System.out.print(
+                                "Please give the Vat number of the large depositor you choose to update their savings: ");
                         an = sc.nextInt();
                         System.out.print("New savings amount: ");
                         an2 = sc.nextDouble();
@@ -462,16 +469,16 @@ class RandomizedBST implements TaxEvasionInterface {
                         System.out.println("1. Search by last name");
                         System.out.println("2. Search by VAT number");
                         an = sc.nextInt();
-                        while(an < 1 || an > 2){
+                        while (an < 1 || an > 2) {
                             System.out.print("Please give a correct number");
                             an = sc.nextInt();
                         }
-                        
-                        if(an == 1){
+
+                        if (an == 1) {
                             System.out.print("Last Name: ");
                             an1 = sc.next();
                             bst.searchByLastName(an1);
-                        }else{
+                        } else {
                             System.out.print("VAT number: ");
                             an = sc.nextInt();
                             bst.searchByAFM(an);
@@ -492,12 +499,12 @@ class RandomizedBST implements TaxEvasionInterface {
                         bst.printByAFM();
                         break;
                 }
-            }while(an != 0);
-            
+            } while (an != 0);
+
             sc.close();
-        }catch(InputMismatchException e){
+        } catch (InputMismatchException e) {
             System.out.println("Please give an int number ");
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
             System.out.println("error");
             System.exit(0);
         }

@@ -6,7 +6,7 @@ public class DoubleQueue {
     protected NodeD head;
     protected NodeD tail;
     protected int counter = 0;
-    
+
     DoubleQueue() {
         this.head = null;
         this.tail = null;
@@ -86,5 +86,8 @@ public class DoubleQueue {
         return tail.getData();
     }
 
+    public int size() {
+        return counter;
+    }
 
 }
