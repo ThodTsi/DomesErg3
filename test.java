@@ -8,14 +8,17 @@ public class test {
         // System.out.println(bst.root.left.item.toString());
         System.out.println(bst.root.N);
         // bst.printΤopLargeDepositors(3);
+        bst.printInorder(bst.root);
+        System.out.println();
         bst.printByAFM();
         // System.out.println(bst.searchByAFM(111).toString());
         // System.out.println(bst.searchByAFM(333));
         // SingleList s = bst.searchByLastName("sa");
         // System.out.println(bst.getMeanSavings());
-        bst.printΤopLargeDepositors(3);
-        bst.remove(666);
-        bst.printΤopLargeDepositors(3);
-        System.out.println(bst.root.N);
+        //bst.printΤopLargeDepositors(3);
+        //bst.remove(666);
+        //bst.printΤopLargeDepositors(3);
+        //System.out.println(bst.root.N);
+        //System.out.println(bst.root.left.N);
     }
 }

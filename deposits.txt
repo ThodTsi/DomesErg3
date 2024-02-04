@@ -1,6 +1,9 @@
-111 mpila nteris 200 15
-222 ou mpoi 30 5
-333 ste la 8003 8001
-444 big man 1000000 1
-555 spilios spil 300001 300000
-666 anti xristos 500000 0 
+12345 Vasilhs Tsitsanhs 65000.5 19000
+84398 Tzenh Vanoy 25000 15000
+23456 Markos Vamvakarhs 90000.8 25000
+39283 Apostolos Nikolaidhs 80000 10000
+54321 Grhgorhs Mpithikwtshs 70000 14000
+42986 Stelios Kazantzidhs 20000 6000
+65409 Swthria Mpelloy 50000 16000
+75312 Agathwnas Iakovidhs 30000 20000
+84342 Kwstas Tsitsanhs 20000 5000

@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
@@ -17,10 +18,11 @@ class RandomizedBST implements TaxEvasionInterface {
 
     protected TreeNode root;
     boolean hasC = false;
+    final double MAX_VALUE = 8000;
 
     public void insert(LargeDepositor item) {
         root = insert(item, root);
-        root.N = countChildren(root);
+        root.N = countChildren(root) - 1; 
     }
 
     private TreeNode insert(LargeDepositor item, TreeNode node) {
@@ -31,7 +33,7 @@ class RandomizedBST implements TaxEvasionInterface {
             System.out.println("Diplo afm");
             return node;
         }
-        if (Math.random() * (node.N + 1) < 1.0) {
+        if (Math.random() * (node.N + 1) < 1.0) {   //tyxaia eisagwgh sthn riza
             return insertAsRoot(item, node);
         }
         if (less(item.key(), node.item.key())) {
@@ -39,7 +41,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             node.right = insert(item, node.right);
         }
-        node.N = countChildren(node);
+        //node.N = countChildren(node);
 
         return node;
     }
@@ -54,7 +56,7 @@ class RandomizedBST implements TaxEvasionInterface {
             node = rotateRight(node);
         } else {
             node.right = insertAsRoot(item, node.right);
-            node = rotateLeft(node);
+            node = rotateLeft(node); 
         }
 
         return node;
@@ -85,9 +87,9 @@ class RandomizedBST implements TaxEvasionInterface {
         int leftCount = countChildren(n.left);
         int rightCount = countChildren(n.right);
 
-        n.N = leftCount + rightCount + 1; // Update N for the current node
+        n.N = leftCount + rightCount + 1; 
 
-        return n.N; // Return the total count for the subtree rooted at this node
+        return n.N ;
     }
 
     // vohthtikh
@@ -98,18 +100,18 @@ class RandomizedBST implements TaxEvasionInterface {
         return false;
     }
 
+    // idia logikh me thn prohgoymenh mas ergasia
     public void load(String filename) {
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
-
             int numberOfLines = 0;
             while (r.readLine() != null) {
                 numberOfLines++;
             }
-
             r.close();
-            // System.out.println("Number of lines: " + numberOfLines);
+
             BufferedReader reader = new BufferedReader(new FileReader(filename));
+            //arxikopoihseis
             int afm = 0;
             String firstname = null, lastname = null;
             double savings = 0.0f, taxedIncome = 0.0f;
@@ -119,7 +121,6 @@ class RandomizedBST implements TaxEvasionInterface {
             while (n < numberOfLines) {
                 ch = reader.read();
                 if (Character.isWhitespace((char) ch)) {
-                    System.out.println("eii");
                     whitespace++;
                     if (whitespace == 1) {
                         afm = Integer.parseInt(currentLine.toString().substring(startIndex, endIndex).trim());
@@ -131,8 +132,7 @@ class RandomizedBST implements TaxEvasionInterface {
                         lastname = currentLine.toString().substring(startIndex, endIndex).trim();
                         startIndex = endIndex;
                     } else if (whitespace == 4) {
-                        savings = Double
-                                .parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
+                        savings = Double.parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
                         startIndex = endIndex;
 
                     }
@@ -143,16 +143,13 @@ class RandomizedBST implements TaxEvasionInterface {
                 if ((char) ch == '\n' || ch == -1) {
 
                     if (ch == -1) {
-                        taxedIncome = Double
-                                .parseDouble(currentLine.toString().substring(startIndex, endIndex - 1).trim());
+                        taxedIncome = Double.parseDouble(currentLine.toString().substring(startIndex, endIndex - 1).trim());
                     } else {
-                        taxedIncome = Double
-                                .parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
+                        taxedIncome = Double.parseDouble(currentLine.toString().substring(startIndex, endIndex).trim());
 
                     }
                     LargeDepositor l = new LargeDepositor(afm, firstname, lastname, savings, taxedIncome);
                     insert(l);
-                    System.out.println(l.toString());
                     n++;
                     endIndex = startIndex = 0; // allazei line, jana arxikopoihsh
                     currentLine.setLength(0); // "katharizoyme to line"
@@ -175,6 +172,7 @@ class RandomizedBST implements TaxEvasionInterface {
     public void updateSavings(int afm, double savings) {
         boolean found = false;
         TreeNode n = root;
+
         while (found == false && n != null) {
             if (afm < n.item.key()) {
                 n = n.left;
@@ -193,6 +191,7 @@ class RandomizedBST implements TaxEvasionInterface {
     public LargeDepositor searchByAFM(int afm) {
         boolean found = false;
         TreeNode n = root;
+
         while (found == false && n != null) {
             if (afm < n.item.key()) {
                 n = n.left;
@@ -205,7 +204,7 @@ class RandomizedBST implements TaxEvasionInterface {
             }
         }
         if (found == false) {
-            System.out.println("This afm doesn't exist");
+            System.out.println("This VAT number doesn't exist");
         }
         return n.item;
     }
@@ -236,12 +235,12 @@ class RandomizedBST implements TaxEvasionInterface {
             System.out.println("The name does not exist");
             return null;
         } else if (list.size() <= 5) {
-            list.printList();
+            list.printList();   // to poly 5 ypoptoys, toys typwnei
         }
         return list;
     }
 
-    TreeNode partR(TreeNode n, int k) {
+    /*TreeNode partR(TreeNode n, int k) {
 
         int t = 0;
         if (n.left == null) {
@@ -258,17 +257,18 @@ class RandomizedBST implements TaxEvasionInterface {
             n = rotateLeft(n);
         }
         return n;
-    }
+    }*/
 
     public void remove(int afm) {
         root = remove(root, afm);
-        root.N = countChildren(root);
+        root.N = countChildren(root) -1;
     }
 
     private TreeNode remove(TreeNode n, int afm) {
         if (n == null) {
             return null;
         }
+
         int k = n.item.key();
         if (less(afm, k)) {
             n.left = remove(n.left, afm);
@@ -277,7 +277,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             n = joinLeftRight(n.left, n.right);
         }
-        n.N = countChildren(n);
+        //n.N = countChildren(n);
         return n;
     }
 
@@ -287,6 +287,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else if (b == null) {
             return a;
         }
+
         int c = a.N + b.N;
         if (Math.random() * c < 1.0 * a.N) {
             a.right = joinLeftRight(a.right, b);
@@ -311,6 +312,7 @@ class RandomizedBST implements TaxEvasionInterface {
         return s;
     }
 
+    // metraei toys komvoys toy dentroy
     private int countNodes(TreeNode n) {
         if (n == null)
             return 0;
@@ -339,7 +341,7 @@ class RandomizedBST implements TaxEvasionInterface {
         NodeD h = dq.head;
 
         while (h != null && h.next != null) {
-            if (h.getData().getTaxedIncome() > 8000 && h.getData().compareTo(h.next.getData()) == -1) {
+            if (h.getData().getTaxedIncome() > MAX_VALUE && h.getData().compareTo(h.next.getData()) == -1) {
                 NodeD temp = h.next;
                 h.next = temp.next;
                 if (temp.next != null) {
@@ -372,10 +374,9 @@ class RandomizedBST implements TaxEvasionInterface {
 
     // anadromikh anazhthsh upoptoy
     public void Traversal3(TreeNode root, DoubleQueue dq, int k) {
-        final double MAX_VALUE = 8000;
         if (root != null) {
             Traversal3(root.left, dq, k);
-            if (root.item.getTaxedIncome() < 8000) {
+            if (root.item.getTaxedIncome() < MAX_VALUE) {
                 dq.addFirst(root.item);
             } else {
                 dq.addLast(root.item);
@@ -390,7 +391,7 @@ class RandomizedBST implements TaxEvasionInterface {
 
         printInorder(node.left);
 
-        System.out.println(node.item.toString());
+        System.out.println(node.item.toString() + "\t" + node.N);
 
         printInorder(node.right);
     }
@@ -400,9 +401,106 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("-------------------MENU-------------------");
-        System.out.println("1. ");
+        try{
+            Scanner sc = new Scanner(System.in);
+            int an;
+            String an1;
+            String an12;
+            double an2;
+            double an21;
+            RandomizedBST bst = new RandomizedBST();
+            bst.load("deposits.txt");
+
+            do{
+                System.out.println("-------------------MENU-------------------");
+                System.out.println("1. Inserst a large depositor");
+                System.out.println("2. Remove a large depositor");
+                System.out.println("3. Change large depositors savings");
+                System.out.println("4. Show large depositors information");
+                System.out.println("5. Show mean savings of all large depositors");
+                System.out.println("6. Show the most suspected of tax evasion large depositors");
+                System.out.println("7. Show large depositors sorted in ascending order by their VAT number");
+                System.out.println("0. Exit");
+                System.out.println("------------------------------------------");
+                an = sc.nextInt();
+                while(an < 0 || an > 7){
+                    System.out.print("Please give a correct number");
+                    an = sc.nextInt();
+                }
+
+                switch ((an)) {
+                    case 1:
+                        System.out.print("VAT Number: ");
+                        an = sc.nextInt();
+                        System.out.print("First Name: ");
+                        an1 = sc.next();
+                        System.out.print("Last Name: ");
+                        an12 = sc.next();
+                        System.out.print("Savings: ");
+                        an2 = sc.nextDouble();
+                        System.out.print("Taxed Income: ");
+                        an21 = sc.nextDouble();
+                        LargeDepositor ld = new LargeDepositor(an, an1, an12, an2, an21);
+                        bst.insert(ld);
+                        break;
+                
+                    case 2:
+                        System.out.print("Please give the VAT number of the large depositor you choose to remove: ");
+                        an = sc.nextInt();
+                        bst.remove(an);
+                        break;
+
+                    case 3:
+                        System.out.print("Please give the Vat number of the large depositor you choose to update their savings: ");
+                        an = sc.nextInt();
+                        System.out.print("New savings amount: ");
+                        an2 = sc.nextDouble();
+                        bst.updateSavings(an, an2);
+                        break;
+
+                    case 4:
+                        System.out.println("1. Search by last name");
+                        System.out.println("2. Search by VAT number");
+                        an = sc.nextInt();
+                        while(an < 1 || an > 2){
+                            System.out.print("Please give a correct number");
+                            an = sc.nextInt();
+                        }
+                        
+                        if(an == 1){
+                            System.out.print("Last Name: ");
+                            an1 = sc.next();
+                            bst.searchByLastName(an1);
+                        }else{
+                            System.out.print("VAT number: ");
+                            an = sc.nextInt();
+                            bst.searchByAFM(an);
+                        }
+                        break;
+
+                    case 5:
+                        System.out.println(bst.getMeanSavings());
+                        break;
+
+                    case 6:
+                        System.out.print("Please give the number of how many depositors do you want to be displayed: ");
+                        an = sc.nextInt();
+                        bst.printΤopLargeDepositors(an);
+                        break;
+
+                    default:
+                        bst.printByAFM();
+                        break;
+                }
+            }while(an != 0);
+            
+            sc.close();
+        }catch(InputMismatchException e){
+            System.out.println("Please give an int number ");
+        }catch(NullPointerException ex){
+            System.out.println("error");
+            System.exit(0);
+        }
     }
 
 }

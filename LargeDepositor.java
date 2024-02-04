@@ -20,8 +20,8 @@ public class LargeDepositor implements Comparable<LargeDepositor> {
     }
 
     public String toString() {
-        return "AFM: " + afm + " \tFirst Name: " + firstName + " \tLast Name: " + lastName +
-                " \tSavings: " + savings + " \tTaxed Income: " + taxedIncome;
+        return "VAT " + afm + " \tFirst Name: " + firstName + " \tLast Name: " + lastName +
+                " \tSavings: " + savings + " \tTaxed Income: " + taxedIncome + " \tScore: " + score;
     }
 
     public void setSavings(double s) {
@@ -39,6 +39,7 @@ public class LargeDepositor implements Comparable<LargeDepositor> {
     public double getTaxedIncome() {
         return taxedIncome;
     }
+    
 
     public int compareTo(LargeDepositor d) {
         int comp = Double.compare(this.score, d.score);

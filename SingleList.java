@@ -1,6 +1,3 @@
-import java.io.PrintStream;
-import java.util.NoSuchElementException;
-
 public class SingleList {
 
     public class Node {
@@ -48,7 +45,7 @@ public class SingleList {
     public void printList() {
         Node h = head;
         while (h != null) {
-            System.out.println(h.toString());
+            System.out.println(h.data.toString());
             h = h.next;
         }
     }

@@ -1,4 +1,4 @@
-public class Node<T> {
+public class Node{
     protected LargeDepositor data;
     protected Node next = null;
 
@@ -7,12 +7,10 @@ public class Node<T> {
     }
 
     public LargeDepositor getData() {
-        // return data stored in this node
         return data;
     }
 
     public Node getNext() {
-        // get next node
         return next;
     }
 

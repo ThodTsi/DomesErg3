@@ -86,16 +86,5 @@ public class DoubleQueue {
         return tail.getData();
     }
 
-    public void printQueue(PrintStream stream) {
-        NodeD n = head;
-        while (n != null) {
-            stream.println(n.getData());
-            n = n.next;
-        }
-    }
-
-    public int size() {
-        return counter;
-    }
 
 }
