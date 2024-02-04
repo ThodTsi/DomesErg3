@@ -41,7 +41,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             node.right = insert(item, node.right);
         }
-        // node.N = countChildren(node);
+        node.N = countChildren(node);
 
         return node;
     }
@@ -259,7 +259,7 @@ class RandomizedBST implements TaxEvasionInterface {
         } else {
             n = joinLeftRight(n.left, n.right);
         }
-        // n.N = countChildren(n);
+        n.N = countChildren(n);
         return n;
     }
 
@@ -371,12 +371,13 @@ class RandomizedBST implements TaxEvasionInterface {
     }
 
     void printInorder(TreeNode node) {
-        if (node == null)
+        if (node == null){
             return;
+        }
 
         printInorder(node.left);
 
-        System.out.println(node.item.toString() + "\t" + node.N);
+        System.out.println(node.item.toString());
 
         printInorder(node.right);
     }
@@ -474,7 +475,7 @@ class RandomizedBST implements TaxEvasionInterface {
                         bst.printΤopLargeDepositors(an);
                         break;
 
-                    default:
+                    case 7:
                         bst.printByAFM();
                         break;
                 }

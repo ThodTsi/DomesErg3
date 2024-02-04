@@ -21,7 +21,7 @@ public class LargeDepositor implements Comparable<LargeDepositor> {
 
     public String toString() {
         return "VAT " + afm + " \tFirst Name: " + firstName + " \tLast Name: " + lastName +
-                " \tSavings: " + savings + " \tTaxed Income: " + taxedIncome + " \tScore: " + score;
+                " \tSavings: " + savings + " \tTaxed Income: " + taxedIncome;
     }
 
     public void setSavings(double s) {
