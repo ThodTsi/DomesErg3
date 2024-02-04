@@ -241,27 +241,6 @@ class RandomizedBST implements TaxEvasionInterface {
         return list;
     }
 
-    /*
-     * TreeNode partR(TreeNode n, int k) {
-     * 
-     * int t = 0;
-     * if (n.left == null) {
-     * t = 0;
-     * } else {
-     * t = n.left.N;
-     * }
-     * if (t > k) {
-     * n.left = partR(n.left, k);
-     * n = rotateRight(n);
-     * }
-     * if (t < k) {
-     * n.right = partR(n.right, k - t - 1);
-     * n = rotateLeft(n);
-     * }
-     * return n;
-     * }
-     */
-
     public void remove(int afm) {
         root = remove(root, afm);
         root.N = countChildren(root) - 1;
